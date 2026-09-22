@@ -42,7 +42,7 @@ const fallbackCSS: EmotionCSS = {
 const EmotionContext = createContext<EmotionContextType>({
   emotion: null,
   setEmotion: () => {},
-  activeIndex: 0,
+  activeIndex: 2,
   setActiveIndex: () => {},
   css: fallbackCSS,
 });
@@ -50,7 +50,7 @@ const EmotionContext = createContext<EmotionContextType>({
 export function EmotionProvider({ children }: { children: ReactNode }) {
   const initial = signalVisual('insufficient_data');
   const [emotion, setEmotion] = useState<EmotionColors | null>({ color1: initial.color1, color2: initial.color2 });
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(2);
 
   const css = useMemo<EmotionCSS>(() => {
     if (!emotion) return fallbackCSS;

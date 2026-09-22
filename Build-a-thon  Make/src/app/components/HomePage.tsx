@@ -3,46 +3,30 @@ import { Link } from 'react-router';
 import { motion, useReducedMotion } from 'framer-motion';
 import Scene from '../../components/Scene';
 import TimeBar from '../../components/TimeBar';
-import { deriveSignalState, detectEvents } from '../../lib/analysis.ts';
+import { deriveSignalState } from '../../lib/analysis.ts';
 import { formatDay } from '../../lib/model.ts';
 import { deriveSignalVisual, PAGE_TRANSITION } from '../../lib/signal-visuals.ts';
 import { useEmotionColors } from './EmotionContext';
 import { useStudy } from './StudyContext';
 
-function dayLabel(day: string): string {
-  return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${day}T00:00:00.000Z`));
-}
+const TIME_OF_DAY_ITEMS = [
+  { label: '12 AM', ariaLabel: 'Midnight to 6 AM · sleeping' },
+  { label: '6 AM', ariaLabel: '6 to 8 AM · working out and more activated' },
+  { label: '8 AM', ariaLabel: '8 AM to noon · relaxed' },
+  { label: '12 PM', ariaLabel: 'Noon to 6 PM · focused' },
+  { label: '6 PM', ariaLabel: '6 PM to midnight · winding down' },
+];
 
 export default function HomePage() {
-  const { state, dataset, storageError } = useStudy();
+  const { dataset, storageError } = useStudy();
   const { activeIndex, setActiveIndex, setEmotion } = useEmotionColors();
   const reducedMotion = useReducedMotion();
   const glowRef = useRef<HTMLDivElement>(null);
-  const initializedRef = useRef(false);
-  const sourceRef = useRef<string | undefined>(state.activeSource);
   const days = useMemo(() => [...new Set((dataset?.batch.readings ?? []).map((reading) => reading.day))].sort(), [dataset]);
-  const sourceChanged = !initializedRef.current || sourceRef.current !== state.activeSource;
-  const selectedIndex = sourceChanged && days.length ? days.length - 1 : Math.max(0, Math.min(activeIndex, Math.max(0, days.length - 1)));
-  const selectedDay = days[selectedIndex];
+  const selectedDay = days[days.length - 1];
   const selectedReadings = dataset?.batch.readings.filter((reading) => !selectedDay || reading.day <= selectedDay) ?? [];
-  const reference = selectedDay ? new Date(`${selectedDay}T23:59:59.999Z`) : new Date();
-  const historicalEvents = selectedDay ? detectEvents(selectedReadings, [], reference) : [];
   const currentState = deriveSignalState(dataset?.batch.readings ?? [], dataset?.events ?? [], new Date());
-  const historicalState = deriveSignalState(selectedReadings, historicalEvents, reference);
-  const measuredState = selectedIndex === days.length - 1 ? currentState : historicalState;
-  const visual = deriveSignalVisual(selectedReadings, selectedDay, measuredState);
-  const timelineItems = days.map((day) => ({ label: dayLabel(day), ariaLabel: `Recorded day ${formatDay(day)}` }));
-
-  useEffect(() => {
-    if (!initializedRef.current || sourceRef.current !== state.activeSource) {
-      sourceRef.current = state.activeSource;
-      initializedRef.current = true;
-      setActiveIndex(Math.max(0, days.length - 1));
-    } else if (days.length && activeIndex > days.length - 1) {
-      setActiveIndex(days.length - 1);
-    }
-  }, [activeIndex, days.length, setActiveIndex, state.activeSource]);
-
+  const visual = deriveSignalVisual(selectedReadings, selectedDay, currentState);
   useEffect(() => setEmotion({ color1: visual.color1, color2: visual.color2 }), [setEmotion, visual.color1, visual.color2]);
 
   useEffect(() => {
@@ -72,7 +56,7 @@ export default function HomePage() {
       </div>
 
       <motion.div style={{ marginTop: 28, position: 'relative', zIndex: 2 }} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ ...PAGE_TRANSITION, duration: reducedMotion ? 0 : PAGE_TRANSITION.duration, delay: reducedMotion ? 0 : 0.1 }}>
-        <TimeBar activeIndex={selectedIndex} onSelect={setActiveIndex} items={timelineItems} />
+        <TimeBar activeIndex={activeIndex} onSelect={setActiveIndex} items={TIME_OF_DAY_ITEMS} />
       </motion.div>
 
       <div ref={glowRef} aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -60%)', width: 750, height: 750, borderRadius: '50%', background: `radial-gradient(circle, rgba(${color}, .5) 0%, rgba(${color}, .2) 35%, rgba(${color}, 0) 65%)`, pointerEvents: 'none', transition: 'background 0.24s cubic-bezier(0.25, 0.1, 0.25, 1)', zIndex: 0 }} />

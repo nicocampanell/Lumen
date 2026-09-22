@@ -10,11 +10,12 @@ import { PAGE_TRANSITION } from '../../lib/signal-visuals.ts';
 const tabRoutes: Record<string, string> = { home: '/', circles: '/circles', profile: '/profile' };
 const routeToTab: Record<string, string> = { '/': 'home', '/circles': 'circles', '/profile': 'profile' };
 
-function insightBodyForHour(hour: number): string {
-  if (hour < 12) return 'This is a good window for focused work or a conversation that needs your full attention.';
-  if (hour < 15) return 'Your day is in motion. Choose one thing that deserves your clearest attention, then give it a clean finish.';
-  if (hour < 19) return 'A small reset can help you carry the rest of the day. Step away, move a little, or make space for one honest conversation.';
-  return 'Let the day become quieter. A slower routine can help you notice what your body is asking for before tomorrow.';
+function insightBodyForTimeIndex(index: number): string {
+  if (index === 0) return 'Midnight to 6 AM is a quiet window for sleeping and letting the body recover.';
+  if (index === 1) return '6 to 8 AM can be more activated—working out, getting moving, and feeling a little stressed can all show up here.';
+  if (index === 2) return 'This middle part of the day looks like a calmer window for focus and relaxed work.';
+  if (index === 3) return 'Keep the afternoon simple: choose one thing, then give yourself a clean reset.';
+  return 'As evening arrives, let the day soften and make room for rest.';
 }
 
 export default function Layout() {
@@ -35,7 +36,7 @@ function LayoutInner() {
   const isCircleDetail = location.pathname === '/circle';
   const isEventDetail = /^\/events\/[^/]+$/.test(location.pathname);
   const hideOverlay = isOnboarding || isEventDetail;
-  const { emotion, css: emotionCSS } = useEmotionColors();
+  const { emotion, activeIndex, css: emotionCSS } = useEmotionColors();
 
   useEffect(() => {
     if (headingRef.current === location.pathname) return;
@@ -60,7 +61,7 @@ function LayoutInner() {
 
   const handleTabChange = (tabId: string) => { const path = tabRoutes[tabId]; if (path) navigate(path); };
   const pageTransition = reducedMotion ? { duration: 0 } : PAGE_TRANSITION;
-  const insightBody = insightBodyForHour(new Date().getHours());
+  const insightBody = insightBodyForTimeIndex(activeIndex);
 
   return (
     <div
