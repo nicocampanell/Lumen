@@ -10,6 +10,10 @@ const css = `
     padding: 16px;
     width: 100%;
     box-sizing: border-box;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 12px 30px rgba(83, 69, 58, 0.08);
   }
 `;
 
@@ -75,6 +79,7 @@ function DiveDeeper({ emotionColors, onMeetYou, actionLabel }: { emotionColors?:
       onClick={onMeetYou}
       style={{
         zIndex: 1,
+        alignSelf: 'flex-end',
         padding: '4px 8px',
         minHeight: 44,
         gap: 10,
