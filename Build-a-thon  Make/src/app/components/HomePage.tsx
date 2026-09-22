@@ -27,8 +27,9 @@ export default function HomePage() {
   const days = useMemo(() => [...new Set((dataset?.batch.readings ?? []).map((reading) => reading.day))].sort(), [dataset]);
   const selectedDay = days[days.length - 1];
   const selectedReadings = dataset?.batch.readings.filter((reading) => !selectedDay || reading.day <= selectedDay) ?? [];
-  const currentState = deriveSignalState(dataset?.batch.readings ?? [], dataset?.events ?? [], new Date());
-  const visual = deriveSignalVisual(selectedReadings, selectedDay, currentState);
+  const dayReference = selectedDay ? new Date(`${selectedDay}T23:59:59.999Z`) : new Date();
+  const dayState = deriveSignalState(selectedReadings, [], dayReference);
+  const visual = deriveSignalVisual(selectedReadings, selectedDay, dayState);
   useEffect(() => setEmotion({ color1: visual.color1, color2: visual.color2 }), [setEmotion, visual.color1, visual.color2]);
 
   useEffect(() => {

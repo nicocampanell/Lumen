@@ -86,7 +86,7 @@ export default function TimeBar({ activeIndex = 0, onSelect = () => {}, items = 
             <div key={index} aria-hidden="true" style={{ width: LINE_W, height, backgroundColor: '#212121', opacity: BLACK_INDICES.includes(index) ? 1 : 0.3, borderRadius: 1, flexShrink: 0 }} />
           ))}
         </div>
-        <div aria-hidden="true" style={{ position: 'absolute', left: 0, top: 42, width: BAR_W, height: 2, backgroundColor: '#212121', opacity: 0.16, borderRadius: 1 }} />
+        <div aria-hidden="true" style={{ position: 'absolute', left: 0, top: 31, width: BAR_W, height: 2, backgroundColor: '#212121', opacity: 0.16, borderRadius: 1 }} />
         <div style={{ position: 'absolute', left: selectorX - 1.5, top: 4, width: 3, height: 64, pointerEvents: 'none', transition: dragging ? 'none' : 'left 0.24s cubic-bezier(0.25, 0.1, 0.25, 1)' }}>
           <div style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', width: 1, height: 64, backgroundColor: '#F05B51', opacity: 0.35 }} />
           <div style={{ position: 'absolute', top: 20, width: 3, height: 24, backgroundColor: '#F05B51', borderRadius: 1.5 }} />

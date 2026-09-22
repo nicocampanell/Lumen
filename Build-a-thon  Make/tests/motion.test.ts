@@ -50,7 +50,7 @@ test('Home sends the continuous Garmin visual into a faceted shader', () => {
   const scene = readFileSync(new URL('../src/components/Scene.jsx', import.meta.url), 'utf8');
   const shader = readFileSync(new URL('../src/components/Orb/orbShaders.js', import.meta.url), 'utf8');
 
-  assert.match(home, /deriveSignalVisual\(selectedReadings, selectedDay, currentState\)/);
+  assert.match(home, /deriveSignalVisual\(selectedReadings, selectedDay, dayState\)/);
   assert.match(home, /<Scene visual=\{visual\}/);
   assert.match(scene, /uFacetStrength/);
   assert.match(scene, /uFacetDetail/);
