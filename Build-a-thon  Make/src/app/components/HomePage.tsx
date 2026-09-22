@@ -5,8 +5,7 @@ import Scene from '../../components/Scene';
 import TimeBar from '../../components/TimeBar';
 import { deriveSignalState, detectEvents } from '../../lib/analysis.ts';
 import { formatDay } from '../../lib/model.ts';
-import { deriveSignalVisual, PAGE_TRANSITION, SIGNAL_TEXT } from '../../lib/signal-visuals.ts';
-import { calculateBaselines } from '../../lib/analysis.ts';
+import { deriveSignalVisual, PAGE_TRANSITION } from '../../lib/signal-visuals.ts';
 import { useEmotionColors } from './EmotionContext';
 import { useStudy } from './StudyContext';
 
@@ -32,7 +31,6 @@ export default function HomePage() {
   const historicalState = deriveSignalState(selectedReadings, historicalEvents, reference);
   const measuredState = selectedIndex === days.length - 1 ? currentState : historicalState;
   const visual = deriveSignalVisual(selectedReadings, selectedDay, measuredState);
-  const readyBaselines = selectedDay ? calculateBaselines(selectedReadings, selectedDay).filter((baseline) => baseline.ready).length : 0;
   const timelineItems = days.map((day) => ({ label: dayLabel(day), ariaLabel: `Recorded day ${formatDay(day)}` }));
 
   useEffect(() => {
@@ -83,10 +81,7 @@ export default function HomePage() {
       </div>
 
       <div role="status" aria-live="polite" style={{ position: 'relative', zIndex: 2, margin: '10px 24px 0', paddingBottom: 20, textAlign: 'center' }}>
-        <p style={{ fontSize: 18, marginBottom: 6 }}>{SIGNAL_TEXT[measuredState]}</p>
-        <p className="lumin-muted" style={{ fontSize: 12 }}>{selectedDay ? `${formatDay(selectedDay)} · ${readyBaselines} baseline${readyBaselines === 1 ? '' : 's'} ready` : 'No recorded days yet · baseline not available'}</p>
-        <p className="lumin-muted" style={{ fontSize: 12 }}>{dataset ? `Source: ${dataset.batch.source === 'fixture' ? 'Sample data (fixture)' : dataset.batch.source} · last update ${formatDay(dataset.batch.importedAt.slice(0, 10))}` : 'Connect Garmin or use sample data to begin.'}</p>
-        {state.connection.message && <p className="lumin-muted" style={{ fontSize: 12 }}>Import note: {state.connection.message}</p>}
+        <p className="lumin-muted" style={{ fontSize: 12 }}>{dataset ? `Last update · ${formatDay(dataset.batch.importedAt.slice(0, 10))}` : 'No update yet'}</p>
         {storageError && <p role="alert" style={{ color: '#8a2d24', fontSize: 12, marginTop: 4 }}>{storageError}</p>}
       </div>
     </main>

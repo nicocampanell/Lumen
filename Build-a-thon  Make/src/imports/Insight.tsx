@@ -1,80 +1,15 @@
 import svgPaths from "./svg-6jijvttuif";
 
 const css = `
-  /* Liquid / Refractive Glass — per Guidelines.md */
   .insight-card {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    align-items: flex-end;
+    gap: 8px;
+    align-items: flex-start;
     padding: 16px;
-    border-radius: 20px;
-    overflow: hidden;
-
-    /* Guideline: Liquid glass background */
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.18) 0%,
-      rgba(255, 255, 255, 0.06) 100%
-    );
-    background-clip: padding-box;
-    backdrop-filter: blur(32px) saturate(200%) brightness(1.05);
-    -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(1.05);
-
-    /* Guideline: transparent border for refraction */
-    border: 1px solid transparent;
-
-    /* Guideline: Depth via layered shadows */
-    box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.3),
-      inset 0 2px 4px rgba(255, 255, 255, 0.3),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Guideline: Gradient border for refraction illusion (::before with mask-composite: exclude) */
-  .insight-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.2)
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Guideline: Shimmering highlight sweep animation */
-  .insight-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    background: linear-gradient(
-      105deg,
-      transparent 40%,
-      rgba(255, 255, 255, 0.18) 50%,
-      transparent 60%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  @keyframes shimmer {
-    0%   { background-position: -100% 0; }
-    100% { background-position: 200% 0; }
+    width: 100%;
+    box-sizing: border-box;
   }
 `;
 
@@ -106,16 +41,16 @@ function Icon({ emotionColors }: { emotionColors?: { color1: number[]; color2: n
 
 function Heading({ emotionColors, title }: { emotionColors?: { color1: number[]; color2: number[] } | null; title: string }) {
   return (
-    <div className="h-[24px] relative shrink-0 w-full" data-name="Heading">
+    <div className="h-[28px] relative shrink-0 w-full" data-name="Heading">
       <Icon emotionColors={emotionColors} />
-      <p className="absolute font-['General_Sans_Variable:Regular',sans-serif] font-normal leading-[24px] left-[32px] text-[16px] text-black top-0 whitespace-nowrap">{title}</p>
+      <p className="absolute font-['General_Sans_Variable:Medium',sans-serif] font-medium leading-[28px] left-[32px] text-[18px] text-black top-0 whitespace-nowrap">{title}</p>
     </div>
   );
 }
 
 function InsighText({ emotionColors, title, body }: { emotionColors?: { color1: number[]; color2: number[] } | null; title: string; body: string }) {
   return (
-    <div className="content-stretch flex flex-col gap-[4px] items-center justify-center relative shrink-0 w-[271px]" data-name="Insigh text" style={{ zIndex: 1 }}>
+    <div className="content-stretch flex flex-col gap-[8px] items-start justify-center relative shrink-0 w-full" data-name="Insigh text" style={{ zIndex: 1 }}>
       <Heading emotionColors={emotionColors} title={title} />
       <p className="font-['General_Sans_Variable:Regular',sans-serif] font-normal leading-[24px] relative shrink-0 text-[#212121] text-[14px] tracking-[0.21px] w-full">{body}</p>
     </div>
@@ -125,13 +60,13 @@ function InsighText({ emotionColors, title, body }: { emotionColors?: { color1: 
 function DiveDeeper({ emotionColors, onMeetYou, actionLabel }: { emotionColors?: { color1: number[]; color2: number[] } | null; onMeetYou?: () => void; actionLabel: string }) {
   const c1 = emotionColors
     ? `rgb(${Math.round(emotionColors.color1[0] * 255)}, ${Math.round(emotionColors.color1[1] * 255)}, ${Math.round(emotionColors.color1[2] * 255)})`
-    : 'rgba(33,33,33,0.5)';
+    : '#212121';
   const c2 = emotionColors
     ? `rgb(${Math.round(emotionColors.color2[0] * 255)}, ${Math.round(emotionColors.color2[1] * 255)}, ${Math.round(emotionColors.color2[2] * 255)})`
-    : 'rgba(33,33,33,0.5)';
+    : '#FECCDA';
   const bgGradient = emotionColors
     ? `linear-gradient(135deg, rgba(${Math.round(emotionColors.color1[0] * 255)}, ${Math.round(emotionColors.color1[1] * 255)}, ${Math.round(emotionColors.color1[2] * 255)}, 0.15), rgba(${Math.round(emotionColors.color2[0] * 255)}, ${Math.round(emotionColors.color2[1] * 255)}, ${Math.round(emotionColors.color2[2] * 255)}, 0.15))`
-    : 'rgba(0,0,0,0.05)';
+    : 'linear-gradient(93.8deg, rgba(255,255,255,0) 39.5%, #FFF4BF 51%, #FECCDA 120.6%)';
 
   return (
     <button
@@ -140,7 +75,7 @@ function DiveDeeper({ emotionColors, onMeetYou, actionLabel }: { emotionColors?:
       onClick={onMeetYou}
       style={{
         zIndex: 1,
-        padding: '4px 12px',
+        padding: '4px 8px',
         minHeight: 44,
         gap: 10,
         borderRadius: 9999,
@@ -149,8 +84,8 @@ function DiveDeeper({ emotionColors, onMeetYou, actionLabel }: { emotionColors?:
         transition: 'background 0.24s cubic-bezier(0.25, 0.1, 0.25, 1)',
       }}
     >
-      <p
-        className="font-['General_Sans_Variable:Regular',sans-serif] font-normal leading-[24px] relative shrink-0 text-[14px] tracking-[0.21px] whitespace-nowrap"
+        <p
+        className="font-['General_Sans_Variable:Semibold',sans-serif] font-semibold leading-[24px] relative shrink-0 text-[14px] tracking-[0.21px] whitespace-nowrap"
         style={{ color: c1, transition: 'color 0.24s cubic-bezier(0.25, 0.1, 0.25, 1)' }}
       >
         {actionLabel}
