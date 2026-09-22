@@ -1,0 +1,7 @@
+.DS_Store
+node_modules/
+dist/
+.pnpm-store/
+**/.impeccable/*.cache.json
+*.zip
+/https:/

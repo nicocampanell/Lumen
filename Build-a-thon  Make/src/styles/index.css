@@ -1,0 +1,105 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+:root {
+  --color-ink: #53453a;
+  --color-charcoal: #212121;
+  --color-cream: #fcf5e6;
+  --color-app-bg: #f4f2f3;
+  --color-surface: #fff;
+  --color-lime: #f4fdaf;
+  --color-coral: #f05b51;
+  --color-blue: #3765c5;
+  --color-muted: #625c57;
+  --color-divider: rgba(83, 69, 58, .24);
+  --color-glass: rgba(255, 255, 255, .66);
+}
+
+/* Global reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'General Sans', system-ui, sans-serif;
+  color: #212121;
+  background: #F4F2F3;
+  overflow: hidden;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.lumin-page {
+  height: 100%;
+  overflow-y: auto;
+  padding: 24px 20px 140px;
+}
+
+.lumin-card {
+  padding: 20px;
+  border-radius: 24px;
+  background: var(--color-surface);
+}
+
+.lumin-button {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 999px;
+}
+
+.lumin-muted { color: var(--color-muted); }
+
+.lumin-orb-fallback {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  background: radial-gradient(circle at 35% 30%, #90b6f4 0 18%, #3765c5 46%, #182f73 100%);
+  box-shadow: 0 0 28px rgba(55, 101, 197, .28);
+}
+
+.lumin-orb-fallback::after {
+  content: '';
+  width: 20%;
+  height: 20%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .72);
+  filter: blur(3px);
+}
+
+.lumin-page input,
+.lumin-page textarea,
+.lumin-page button {
+  font: inherit;
+}
+
+button:focus-visible,
+[role='button']:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+
+  .cp-sway-a, .cp-sway-b, .cp-sway-c, .cp-sway-d, .cp-sway-e, .cp-sway-f,
+  .cp-glow-a, .cp-glow-b, .cp-glow-c, .cp-glow-d, .cp-glow-e, .cp-glow-f,
+  .cp-glow-group, .cd-float-a, .cd-float-b, .cd-float-c, .cd-float-d,
+  .cd-float-e, .cd-float-f, .cd-glow {
+    animation: none !important;
+  }
+}
