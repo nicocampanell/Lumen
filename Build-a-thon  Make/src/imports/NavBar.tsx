@@ -11,20 +11,16 @@ import { useState } from 'react';
       <path d="M3 9.5L12 3L21 9.5V20C21 20.5523 20.5523 21 20 21H15V15H9V21H4C3.44772 21 3 20.5523 3 20V9.5Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
     </svg>
   );
-  const CirclesIconActive = () => (
+  const EventsIconActive = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="9" cy="7" r="4" fill="currentColor"/>
-      <circle cx="17" cy="11" r="3" fill="currentColor" opacity="0.7"/>
-      <path d="M2 21C2 17.134 5.13401 14 9 14C12.866 14 16 17.134 16 21H2Z" fill="currentColor"/>
-      <path d="M16 14C18.7614 14 21 16.2386 21 19V21H16V19C16 17.2977 15.3128 15.7543 14.2 14.6201C14.7576 14.2186 15.3906 14 16 14Z" fill="currentColor" opacity="0.7"/>
+      <path d="M6 3.5h12A1.5 1.5 0 0 1 19.5 5v14A1.5 1.5 0 0 1 18 20.5H6A1.5 1.5 0 0 1 4.5 19V5A1.5 1.5 0 0 1 6 3.5Z" fill="currentColor"/>
+      <path d="M8 8h8M8 12h8M8 16h5" stroke="#F4F2F3" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   );
-  const CirclesIconInactive = () => (
+  const EventsIconInactive = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.5"/>
-      <circle cx="17" cy="11" r="3" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M2 21C2 17.134 5.13401 14 9 14C12.866 14 16 17.134 16 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M16 14C18.7614 14 21 16.2386 21 19V21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M6 3.5h12A1.5 1.5 0 0 1 19.5 5v14A1.5 1.5 0 0 1 18 20.5H6A1.5 1.5 0 0 1 4.5 19V5A1.5 1.5 0 0 1 6 3.5Z" stroke="currentColor" strokeWidth="1.5"/>
+      <path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   );
   const ProfileIconActive = () => (
@@ -177,10 +173,10 @@ import { useState } from 'react';
       InactiveIcon: HomeIconInactive,
     },
     {
-      id: 'circles',
-      label: 'Circles',
-      ActiveIcon: CirclesIconActive,
-      InactiveIcon: CirclesIconInactive,
+      id: 'events',
+      label: 'Events',
+      ActiveIcon: EventsIconActive,
+      InactiveIcon: EventsIconInactive,
     },
     {
       id: 'profile',

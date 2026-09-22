@@ -7,8 +7,8 @@ import { EmotionProvider, useEmotionColors } from './EmotionContext';
 import { useStudy } from './StudyContext';
 import { PAGE_TRANSITION } from '../../lib/signal-visuals.ts';
 
-const tabRoutes: Record<string, string> = { home: '/', circles: '/circles', profile: '/profile' };
-const routeToTab: Record<string, string> = { '/': 'home', '/circles': 'circles', '/profile': 'profile' };
+const tabRoutes: Record<string, string> = { home: '/', events: '/events', profile: '/profile' };
+const routeToTab: Record<string, string> = { '/': 'home', '/events': 'events', '/profile': 'profile' };
 
 function insightBodyForTimeIndex(index: number): string {
   if (index === 0) return 'Midnight to 6 AM is a quiet window for sleeping and letting the body recover.';
