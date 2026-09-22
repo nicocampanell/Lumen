@@ -98,7 +98,7 @@ export function deriveSignalVisual(readings: MetricReading[], day: string | unde
       DETECTION_CONFIG.minimumAbsoluteChange[reading.metric],
       DETECTION_CONFIG.robustThreshold * 1.4826 * baseline.mad,
     );
-    scores.set(reading.metric, clamp((reading.value - baseline.center) / (threshold * 2), -1, 1));
+    scores.set(reading.metric, clamp((reading.value - baseline.center) / (threshold * 1.25), -1, 1));
   }
   if (scores.size < 2) return signalVisual('insufficient_data');
 
