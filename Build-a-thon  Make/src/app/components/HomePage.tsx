@@ -10,11 +10,13 @@ import { useEmotionColors } from './EmotionContext';
 import { useStudy } from './StudyContext';
 
 const TIME_OF_DAY_ITEMS = [
-  { label: '12 AM', ariaLabel: 'Midnight to 6 AM · sleeping' },
-  { label: '6 AM', ariaLabel: '6 to 8 AM · working out and more activated' },
-  { label: '8 AM', ariaLabel: '8 AM to noon · relaxed' },
-  { label: '12 PM', ariaLabel: 'Noon to 6 PM · focused' },
-  { label: '6 PM', ariaLabel: '6 PM to midnight · winding down' },
+  { label: '0', ariaLabel: '0 hours · midnight to 4 AM · sleeping' },
+  { label: '4', ariaLabel: '4 hours · early morning · sleeping' },
+  { label: '8', ariaLabel: '8 hours · working out and more activated' },
+  { label: '12', ariaLabel: '12 hours · relaxed middle of the day' },
+  { label: '16', ariaLabel: '16 hours · focused afternoon' },
+  { label: '20', ariaLabel: '20 hours · winding down' },
+  { label: '24', ariaLabel: '24 hours · end of day' },
 ];
 
 export default function HomePage() {
