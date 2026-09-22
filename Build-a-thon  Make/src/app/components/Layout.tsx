@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router';
-import StatusBar from '../../imports/StatusBar';
 import NavBar from '../../imports/NavBar';
 import Insight from '../../imports/Insight';
 import { EmotionProvider, useEmotionColors } from './EmotionContext';
@@ -54,15 +53,12 @@ function LayoutInner() {
 
   const handleTabChange = (tabId: string) => { const path = tabRoutes[tabId]; if (path) navigate(path); };
   const pageTransition = reducedMotion ? { duration: 0 } : PAGE_TRANSITION;
-  const statusFloating = isProfile || isInsight || isHeartRate || isCircleDetail;
 
   return (
     <div
       className="relative mx-auto flex flex-col"
       style={{ width: 'min(390px, 100vw)', height: 'min(844px, 100dvh)', paddingBottom: 'env(safe-area-inset-bottom, 0px)', backgroundColor: '#F4F2F3', borderRadius: 44, overflow: 'hidden' }}
     >
-      {!isOnboarding && (statusFloating ? <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, paddingTop: 8 }}><StatusBar /></div> : <div style={{ paddingTop: 8, flexShrink: 0 }}><StatusBar /></div>)}
-
       <div className="relative flex-1" style={{ minHeight: 0, overflow: isProfile || isInsight || isHeartRate || isCircleDetail ? 'hidden' : 'auto' }}>
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={location.pathname} initial={{ opacity: 0, y: reducedMotion ? 0 : 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -6 }} transition={pageTransition} style={{ height: '100%' }}>
