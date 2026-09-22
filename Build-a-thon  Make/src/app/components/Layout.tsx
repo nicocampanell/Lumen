@@ -81,7 +81,7 @@ function LayoutInner() {
       {!hideOverlay && (
         <div style={{ position: 'absolute', bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))', left: 40, right: 40, zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
           {location.pathname === '/' && <motion.div style={{ width: '100%' }} initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ ...PAGE_TRANSITION, duration: reducedMotion ? 0 : PAGE_TRANSITION.duration, delay: reducedMotion ? 0 : 0.1 }}><Insight emotionColors={emotion} title="Insight" body={insightBody} actionLabel="meet you" onMeetYou={() => navigate('/insight')} /></motion.div>}
-          {!isInsight && !isHeartRate && !isCircleDetail && <NavBar activeTab={activeTab} onTabChange={handleTabChange} emotionGradient={emotionCSS.gradient} emotionColor1={emotionCSS.color1} emotionColor2={emotionCSS.color2} />}
+          {!isHeartRate && !isCircleDetail && <NavBar activeTab={activeTab} onTabChange={handleTabChange} emotionGradient={emotionCSS.gradient} emotionColor1={emotionCSS.color1} emotionColor2={emotionCSS.color2} />}
         </div>
       )}
     </div>
