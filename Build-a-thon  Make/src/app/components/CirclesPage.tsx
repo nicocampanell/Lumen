@@ -1,6 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, animate, useReducedMotion } from "framer-motion";
-import { useNavigate } from "react-router";
 import imgCanvas from "figma:asset/f0d9440aaea1a5df257044e12a049543f70c5e9d.png";
 import MiniOrb from "./MiniOrb";
 import type { MiniOrbPreset } from "./MiniOrb";
@@ -9,23 +8,12 @@ import { focusVisibilityOption } from "../../lib/signal-visuals";
 
 /* ═══════════════════════════ DATA ═══════════════════════════ */
 
-// Profile photos keyed by member name
-const MEMBER_PHOTOS: Record<string, string> = {
-  "Elena Park": "https://images.unsplash.com/photo-1643646805556-350c057663dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "David Park": "https://images.unsplash.com/photo-1738566061505-556830f8b8f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Mia Park": "https://images.unsplash.com/photo-1772146345330-e35689b58b2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Jake Torres": "https://images.unsplash.com/photo-1617746652974-0be48cd984d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Priya Nair": "https://images.unsplash.com/photo-1710425804836-a1de39056b40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Alex Rivera": "https://images.unsplash.com/photo-1765700325742-b52f566bf6dd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Morgan Lee": "https://images.unsplash.com/photo-1694299352873-0c29d862e87a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Sam Park": "https://images.unsplash.com/photo-1770027611367-0cdc230f4fc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Zoe Wu": "https://images.unsplash.com/photo-1765248149215-b0c913b904fd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Jin Oh": "https://images.unsplash.com/photo-1641760395906-8bf9c07b5a2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Kai Johnson": "https://images.unsplash.com/photo-1641760395906-8bf9c07b5a2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Luna Diaz": "https://images.unsplash.com/photo-1749318104909-ee768bac4d7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "River Santos": "https://images.unsplash.com/photo-1617746652974-0be48cd984d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Ash Patel": "https://images.unsplash.com/photo-1770027611367-0cdc230f4fc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
-  "Jade Liu": "https://images.unsplash.com/photo-1589800887183-e22983ea361c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400",
+const CIRCLE_EMOJI: Record<string, string> = {
+  Family: "🏡",
+  Roommates: "🏠",
+  Coworkers: "💼",
+  Friends: "✨",
+  Project: "🎯",
 };
 
 // Clearly fictional copy keeps the local Circles demo separate from real people or physiology.
@@ -487,7 +475,24 @@ function Carousel({ activeIdx, rotation, isDragging, onItemClick, onPointerDown,
                   }}
                 />
               )}
-              <MiniOrb preset={group.preset} size={orbSize} />
+              <div
+                aria-label={`${group.name} circle ${CIRCLE_EMOJI[group.name] ?? "◌"}`}
+                role="img"
+                style={{
+                  width: orbSize,
+                  height: orbSize,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: `linear-gradient(135deg, rgba(${Math.round(c1[0] * 255)},${Math.round(c1[1] * 255)},${Math.round(c1[2] * 255)},.8), rgba(255,255,255,.7))`,
+                  border: "1px solid rgba(255,255,255,.85)",
+                  boxShadow: "0 8px 22px rgba(33,33,33,.12), inset 0 1px 0 rgba(255,255,255,.7)",
+                  fontSize: isActive ? 32 : 26,
+                }}
+              >
+                {CIRCLE_EMOJI[group.name] ?? "◌"}
+              </div>
               <p
                 style={{
                   fontFamily: "'General Sans Variable','General Sans',sans-serif",
@@ -1520,7 +1525,6 @@ function LandingView({
   visibilityOpen, setVisibilityOpen,
   groups,
   onLeave,
-  onOpen,
 }: {
   group: GroupData;
   activeIdx: number;
@@ -1531,7 +1535,6 @@ function LandingView({
   setVisibilityOpen: (v: boolean | ((prev: boolean) => boolean)) => void;
   groups: GroupData[];
   onLeave: () => void;
-  onOpen: () => void;
 }) {
   const reduceMotion = useReducedMotion();
   const [addPersonOpen, setAddPersonOpen] = useState(false);
@@ -1639,17 +1642,6 @@ function LandingView({
           >
             <SwipeableCircleSelector activeIdx={activeIdx} onItemClick={onItemClick} groups={groups} />
           </motion.div>
-
-          <div style={{ padding: "0 24px", marginTop: -4 }}>
-            <button
-              type="button"
-              onClick={onOpen}
-              className="lumin-button"
-              style={{ width: "100%", border: "1px solid var(--color-divider)", background: "rgba(255,255,255,.66)", color: "#212121", cursor: "pointer", fontSize: 14 }}
-            >
-              Open sample network
-            </button>
-          </div>
 
           {/* ── Visibility section ── */}
           <div className="px-[24px] pt-[28px] pb-[24px]"
@@ -1879,27 +1871,13 @@ function LandingView({
               <span className="lumin-muted" style={{ fontSize: 12, lineHeight: "18px" }}>Sample signals</span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-              {group.members.map((member) => {
-                const photo = MEMBER_PHOTOS[member];
+              {group.members.map((member, memberIndex) => {
                 const briefing = (MEMBER_BRIEFINGS[member] ?? {})[selectedVisibility] ?? "";
-                const isYou = member === "You";
                 return (
                 <div key={member} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                   {/* Avatar */}
-                  <div style={{ width: 44, height: 44, borderRadius: "50%", flexShrink: 0, overflow: "hidden", background: "#BBB9BC", position: "relative", marginTop: 2 }}>
-                    {photo && !isYou ? (
-                      <img
-                        src={photo}
-                        alt={member}
-                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                      />
-                    ) : (
-                      <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg, #FECCDA 0%, #E5CC50 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <span style={{ fontFamily: "'General Sans Variable','General Sans',sans-serif", fontWeight: 600, fontSize: 16, color: "#212121" }}>
-                          {member.charAt(0)}
-                        </span>
-                      </div>
-                    )}
+                  <div aria-label={`${member} sample signal`} style={{ width: 44, height: 44, borderRadius: "50%", flexShrink: 0, overflow: "hidden", position: "relative", marginTop: 2 }}>
+                    <MiniOrb preset={group.memberPresets[memberIndex]} size={44} />
                   </div>
                   {/* Name + briefing */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 1, flex: 1, minWidth: 0 }}>
@@ -1982,7 +1960,6 @@ function LandingView({
 /* ══════════════════════ MAIN COMPONENT ══════════════════════ */
 
 export default function CirclesPage() {
-  const navigate = useNavigate();
   const [groups, setGroups] = useState<GroupData[]>(GROUPS);
   const [activeGroupIdx, setActiveGroupIdx] = useState(Math.floor(GROUPS.length / 2));
 
@@ -2037,11 +2014,10 @@ export default function CirclesPage() {
         setVisibilityOpen={(v) => {
           const groupName = activeGroup.name;
           setVisibilityOpenMap((m) => ({
-            ...m,
-            [groupName]: typeof v === "function" ? v(m[groupName]) : v,
+          ...m,
+          [groupName]: typeof v === "function" ? v(m[groupName]) : v,
           }));
         }}
-        onOpen={() => navigate("/circle", { state: { group: activeGroup } })}
       />
     </div>
   );
