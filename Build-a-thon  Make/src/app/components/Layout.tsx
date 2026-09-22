@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router';
 import NavBar from '../../imports/NavBar';
-import Insight from '../../imports/Insight';
 import { EmotionProvider, useEmotionColors } from './EmotionContext';
 import { useStudy } from './StudyContext';
 import { PAGE_TRANSITION } from '../../lib/signal-visuals.ts';
@@ -28,7 +27,7 @@ function LayoutInner() {
   const isCircleDetail = location.pathname === '/circle';
   const isEventDetail = /^\/events\/[^/]+$/.test(location.pathname);
   const hideOverlay = isOnboarding || isEventDetail;
-  const { emotion, css: emotionCSS } = useEmotionColors();
+  const { css: emotionCSS } = useEmotionColors();
 
   useEffect(() => {
     if (headingRef.current === location.pathname) return;
@@ -71,7 +70,6 @@ function LayoutInner() {
 
       {!hideOverlay && (
         <div style={{ position: 'absolute', bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))', left: 40, right: 40, zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-          {location.pathname === '/' && <motion.div initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ ...PAGE_TRANSITION, duration: reducedMotion ? 0 : PAGE_TRANSITION.duration, delay: reducedMotion ? 0 : 0.1 }}><Insight emotionColors={emotion} title="Signal note" body="Review your latest measured day and add context when something shifted." actionLabel="View events" onMeetYou={() => navigate('/events')} /></motion.div>}
           {!isInsight && !isHeartRate && !isCircleDetail && <NavBar activeTab={activeTab} onTabChange={handleTabChange} emotionGradient={emotionCSS.gradient} emotionColor1={emotionCSS.color1} emotionColor2={emotionCSS.color2} />}
         </div>
       )}
