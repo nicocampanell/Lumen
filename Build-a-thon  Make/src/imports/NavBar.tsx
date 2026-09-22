@@ -106,7 +106,7 @@ import { useState } from 'react';
       position: absolute;
       top: 4px;
       left: 4px;
-      width: 102px;
+      width: 88px;
       bottom: 4px;
       border-radius: 292px;
       background: linear-gradient(125.75deg, rgba(254,204,218,0.2) 27.09%, rgba(229,204,80,0.2) 82.02%);
@@ -129,7 +129,7 @@ import { useState } from 'react';
       align-items: center;
       justify-content: center;
       gap: 1px;
-      width: 102px;
+      width: 88px;
       padding: 6px 8px 7px;
       background: none;
       border: none;
@@ -190,7 +190,7 @@ import { useState } from 'react';
     },
   ];
 
-  const TAB_STRIDE = 106;
+  const TAB_STRIDE = 92;
 
   interface NavBarProps {
     activeTab?: string;

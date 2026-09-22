@@ -50,7 +50,7 @@ export default function HomePage() {
 
   return (
     <main style={{ position: 'relative', height: '100%', minHeight: 0, overflow: 'hidden' }}>
-      <div style={{ height: 16, flexShrink: 0 }} />
+      <div style={{ height: 'max(24px, env(safe-area-inset-top, 0px))', flexShrink: 0 }} />
       <div className="flex items-center justify-between" style={{ paddingLeft: 24, paddingRight: 20, position: 'relative', zIndex: 2 }}>
         <motion.h1 className="text-[24px]" style={{ fontWeight: 500, color: '#212121' }} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ ...PAGE_TRANSITION, duration: reducedMotion ? 0 : PAGE_TRANSITION.duration }}>Morning, Nico</motion.h1>
         <Link to="/events" aria-label={`Open Events${eventCount ? `, ${eventCount} recorded` : ''}`} style={{ minWidth: 78, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 70, background: 'linear-gradient(90deg, rgba(240,91,81,.2), rgba(247,247,247,0))', color: '#8a2d24', textDecoration: 'none', fontSize: 14 }}>
