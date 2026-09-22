@@ -10,6 +10,13 @@ import { PAGE_TRANSITION } from '../../lib/signal-visuals.ts';
 const tabRoutes: Record<string, string> = { home: '/', circles: '/circles', profile: '/profile' };
 const routeToTab: Record<string, string> = { '/': 'home', '/circles': 'circles', '/profile': 'profile' };
 
+function insightBodyForHour(hour: number): string {
+  if (hour < 12) return 'This is a good window for focused work or a conversation that needs your full attention.';
+  if (hour < 15) return 'Your day is in motion. Choose one thing that deserves your clearest attention, then give it a clean finish.';
+  if (hour < 19) return 'A small reset can help you carry the rest of the day. Step away, move a little, or make space for one honest conversation.';
+  return 'Let the day become quieter. A slower routine can help you notice what your body is asking for before tomorrow.';
+}
+
 export default function Layout() {
   return <EmotionProvider><LayoutInner /></EmotionProvider>;
 }
@@ -53,6 +60,7 @@ function LayoutInner() {
 
   const handleTabChange = (tabId: string) => { const path = tabRoutes[tabId]; if (path) navigate(path); };
   const pageTransition = reducedMotion ? { duration: 0 } : PAGE_TRANSITION;
+  const insightBody = insightBodyForHour(new Date().getHours());
 
   return (
     <div
@@ -71,7 +79,7 @@ function LayoutInner() {
 
       {!hideOverlay && (
         <div style={{ position: 'absolute', bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))', left: 40, right: 40, zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-          {location.pathname === '/' && <motion.div style={{ width: '100%' }} initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ ...PAGE_TRANSITION, duration: reducedMotion ? 0 : PAGE_TRANSITION.duration, delay: reducedMotion ? 0 : 0.1 }}><Insight emotionColors={emotion} title="Insight" body="This is actually a good time for something hard. Difficult conversations, focused creative work etc." actionLabel="meet you" onMeetYou={() => navigate('/insight')} /></motion.div>}
+          {location.pathname === '/' && <motion.div style={{ width: '100%' }} initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ ...PAGE_TRANSITION, duration: reducedMotion ? 0 : PAGE_TRANSITION.duration, delay: reducedMotion ? 0 : 0.1 }}><Insight emotionColors={emotion} title="Insight" body={insightBody} actionLabel="meet you" onMeetYou={() => navigate('/insight')} /></motion.div>}
           {!isInsight && !isHeartRate && !isCircleDetail && <NavBar activeTab={activeTab} onTabChange={handleTabChange} emotionGradient={emotionCSS.gradient} emotionColor1={emotionCSS.color1} emotionColor2={emotionCSS.color2} />}
         </div>
       )}
